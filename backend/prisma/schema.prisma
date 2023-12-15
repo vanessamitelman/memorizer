@@ -1,0 +1,47 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+
+model CardDecks {
+  id                 Int          @id @default(autoincrement())
+  name               String?
+  randomOrder        Int
+  enableText         Int
+  enableTextToSpeech Int
+  cards              Cards[]
+  statistics         Statistics[]
+}
+
+model Cards {
+  id        Int       @id @default(autoincrement())
+  front     String
+  back      String
+  hint      String
+  deckId    Int
+  cardDecks CardDecks @relation(fields: [deckId], references: [id]) // Define the relationship
+}
+
+model Statistics {
+  id           Int       @id @default(autoincrement())
+  userId       Int
+  deckId       Int
+  date         String
+  success_rate Int
+  cardDecks    CardDecks @relation(fields: [deckId], references: [id]) // Define the relationship
+  users        Users     @relation(fields: [userId], references: [id]) // Define the relationship
+}
+
+model Users {
+  id           Int          @id @default(autoincrement())
+  username     String
+  password     String
+  email        String
+  lastLoggedIn String
+  statistics   Statistics[]
+}
