@@ -35,8 +35,8 @@ app.use(express_1.default.json());
 app.use((0, cors_1.default)({
     origin: ['http://localhost:5173']
 }));
-app.listen(3301, () => {
-    console.log('listening on 3301');
+app.listen(3302, () => {
+    console.log('listening on 3302');
 });
 app.use('/trpc', trpcExpress.createExpressMiddleware({
     router: index_1.appRouter

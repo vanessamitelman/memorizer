@@ -1,8 +1,14 @@
 import { cardsRouter } from './cardsRouter';
-import { router } from './trpc';
+import { decksRouter } from './deckRouter';
+import { statisticsRouter } from './statisticsRouter';
+import { publicProcedure, router } from './trpc';
+import { usersRouter } from './usersRouter';
 
 export const appRouter = router({
-  cards: cardsRouter
+  cards: cardsRouter,
+  decks: decksRouter,
+  statistics: statisticsRouter,
+  users: usersRouter
 });
 
 // Export type router type signature,

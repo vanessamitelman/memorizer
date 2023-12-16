@@ -3,6 +3,10 @@ import { trpc } from '../trpc';
 
 export function HomePage() {
   const list_cards_query = trpc.cards.list.useQuery();
+  if (list_cards_query.isLoading) {
+    return <div>Loading...</div>;
+  }
+  if (list_cards_query.data === undefined) return <div>No Data...</div>;
   return (
     <main>
       --- {JSON.stringify(list_cards_query.data)}---

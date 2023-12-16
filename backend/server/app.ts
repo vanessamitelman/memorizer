@@ -10,8 +10,8 @@ app.use(
     origin: ['http://localhost:5173']
   })
 );
-app.listen(3301, () => {
-  console.log('listening on 3301');
+app.listen(3302, () => {
+  console.log('listening on 3302');
 });
 app.use(
   '/trpc',
