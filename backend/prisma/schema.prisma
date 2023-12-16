@@ -10,12 +10,14 @@ datasource db {
 
 model CardDecks {
   id                 Int          @id @default(autoincrement())
-  name               String?
+  userId  Int @unique
+  name               String
   randomOrder        Int
   enableText         Int
   enableTextToSpeech Int
   cards              Cards[]
-  statistics         Statistics[]
+  users Users @relation(fields: [userId],references: [id])
+
 }
 
 model Cards {
@@ -25,15 +27,17 @@ model Cards {
   hint      String
   deckId    Int
   cardDecks CardDecks @relation(fields: [deckId], references: [id]) // Define the relationship
+  statistics Statistics[]
 }
 
 model Statistics {
   id           Int       @id @default(autoincrement())
   userId       Int
-  deckId       Int
-  date         String
-  success_rate Int
-  cardDecks    CardDecks @relation(fields: [deckId], references: [id]) // Define the relationship
+  cardId       Int
+  dateTimeLastTested     Int
+  successRate  Int
+  intervalInDays Int
+  cards Cards @relation(fields: [cardId], references: [id])
   users        Users     @relation(fields: [userId], references: [id]) // Define the relationship
 }
 
@@ -44,4 +48,5 @@ model Users {
   email        String
   lastLoggedIn String
   statistics   Statistics[]
+  cardDecks CardDecks[]
 }
