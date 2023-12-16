@@ -43,10 +43,13 @@ model Statistics {
 
 model Users {
   id           Int          @id @default(autoincrement())
-  username     String
-  password     String
-  email        String
+  password     String?
+  email        String?
+  googleId String?
+  googleEmail String?
   lastLoggedIn String
+  createDate String
+  isLoggedIn Int?
   statistics   Statistics[]
   cardDecks CardDecks[]
 }

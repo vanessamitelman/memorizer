@@ -1,3 +1,4 @@
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { httpBatchLink } from '@trpc/client';
 import { useState } from 'react';
@@ -22,13 +23,15 @@ export function App() {
     })
   );
   return (
-    <trpc.Provider client={trpcClient} queryClient={queryClient}>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>
-          <RouterComponent />
-        </BrowserRouter>
-      </QueryClientProvider>
-    </trpc.Provider>
+    <GoogleOAuthProvider clientId='793087155881-3gd19s84s0t7qjtgnvdelag2n6ijt1g1.apps.googleusercontent.com'>
+      <trpc.Provider client={trpcClient} queryClient={queryClient}>
+        <QueryClientProvider client={queryClient}>
+          <BrowserRouter>
+            <RouterComponent />
+          </BrowserRouter>
+        </QueryClientProvider>
+      </trpc.Provider>
+    </GoogleOAuthProvider>
   );
 }
 
