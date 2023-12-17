@@ -1,13 +1,32 @@
 import { GoogleLogin } from '@react-oauth/google';
 import { decode } from 'jwt-js-decode';
 import { trpc } from '../trpc';
+import { atom, useAtom } from 'jotai';
+
+export const userAtom = atom<{
+  id: number;
+  email: string;
+  // Add other user-related information as needed
+} | null>(null);
 
 export function LoginPage() {
-  const google_user_mutation = trpc.users.createGoogleUser.useMutation({
+  const [user, setUser] = useAtom(userAtom);
+
+  // Function to handle user login
+
+  const google_user_mutation = trpc.users.googleUser.useMutation({
     onSuccess: () => {
       console.log('success');
     }
   });
+  const handleUserLogin = (id: number, email: string) => {
+    const loggedInUser = {
+      id,
+      email
+    };
+
+    setUser(loggedInUser);
+  };
   return (
     <main>
       <h1>Login Page</h1>
@@ -18,12 +37,16 @@ export function LoginPage() {
       </p>
       <GoogleLogin
         onSuccess={async (credentialResponse) => {
-          await console.log(credentialResponse);
           if (credentialResponse.credential === undefined) return;
           const {
             payload: { email, sub }
           } = await decode(credentialResponse.credential);
-          await console.log(email, sub);
+          const get_user_query = trpc.users.getUserByEmail.useQuery(email);
+          if (get_user_query.isLoading || get_user_query.data === undefined)
+            <div>Loading...</div>;
+          if (get_user_query.data === undefined || get_user_query.data === null)
+            return <div>Data doesn't exists</div>;
+          handleUserLogin(get_user_query.data.id, email);
         }}
         onError={() => {
           console.log('Login Failed');

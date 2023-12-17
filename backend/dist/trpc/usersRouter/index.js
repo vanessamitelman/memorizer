@@ -17,7 +17,7 @@ exports.usersRouter = (0, trpc_1.router)({
     list: trpc_1.publicProcedure.query(() => __awaiter(void 0, void 0, void 0, function* () {
         return yield connection_1.prismaDB.users.findMany();
     })),
-    create: trpc_1.publicProcedure
+    createUser: trpc_1.publicProcedure
         .input(zod_1.z.object({
         email: zod_1.z.string(),
         password: zod_1.z.string(),
@@ -29,5 +29,38 @@ exports.usersRouter = (0, trpc_1.router)({
             data: opts.input
         });
         return googleUser;
+    })),
+    createGoogleUser: trpc_1.publicProcedure
+        .input(zod_1.z.object({
+        googleEmail: zod_1.z.string(),
+        googleId: zod_1.z.string(),
+        createDate: zod_1.z.string(),
+        lastLoggedIn: zod_1.z.string()
+    }))
+        .mutation((opts) => __awaiter(void 0, void 0, void 0, function* () {
+        const googleUser = yield connection_1.prismaDB.users.create({
+            data: opts.input
+        });
+        return googleUser;
+    })),
+    bookEdit: trpc_1.publicProcedure
+        .input(zod_1.z.object({
+        id: zod_1.z.string(),
+        title: zod_1.z.string(),
+        authorId: zod_1.z.string(),
+        description: zod_1.z.string()
+    }))
+        .mutation((opts) => __awaiter(void 0, void 0, void 0, function* () {
+        const book = yield connection_1.prismaDB.book.update({
+            data: {
+                title: opts.input.title,
+                description: opts.input.description,
+                authorId: opts.input.authorId
+            },
+            where: {
+                id: opts.input.id
+            }
+        });
+        return book;
     }))
 });

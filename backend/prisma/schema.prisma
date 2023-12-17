@@ -44,9 +44,8 @@ model Statistics {
 model Users {
   id           Int          @id @default(autoincrement())
   password     String?
-  email        String?
+  email        String
   googleId String?
-  googleEmail String?
   lastLoggedIn String
   createDate String
   isLoggedIn Int?
