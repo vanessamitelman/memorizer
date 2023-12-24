@@ -5,13 +5,15 @@ import { useState } from 'react';
 import { trpc } from './trpc';
 import { BrowserRouter } from 'react-router-dom';
 import { RouterComponent } from './Router';
+import { ThemeProvider } from '@mui/material';
+import { theme } from './Theme/theme';
 export function App() {
   const [queryClient] = useState(() => new QueryClient());
   const [trpcClient] = useState(() =>
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: 'http://localhost:3302/trpc',
+          url: 'http://localhost:3301/trpc',
           // You can pass any HTTP headers you wish here
           async headers() {
             return {
@@ -23,6 +25,7 @@ export function App() {
     })
   );
   return (
+    // <ThemeProvider theme={theme}>
     <GoogleOAuthProvider clientId='793087155881-3gd19s84s0t7qjtgnvdelag2n6ijt1g1.apps.googleusercontent.com'>
       <trpc.Provider client={trpcClient} queryClient={queryClient}>
         <QueryClientProvider client={queryClient}>
@@ -32,6 +35,7 @@ export function App() {
         </QueryClientProvider>
       </trpc.Provider>
     </GoogleOAuthProvider>
+    // </ThemeProvider>
   );
 }
 

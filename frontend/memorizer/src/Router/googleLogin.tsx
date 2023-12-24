@@ -4,12 +4,12 @@ import { trpc } from '../trpc';
 import { atom, useAtom } from 'jotai';
 import { userAtom } from '../Store/jotai';
 
-export function LoginPage() {
+export function GoogleLoginPage() {
   const [user, setUser] = useAtom(userAtom);
 
   // Function to handle user login
 
-  const add_user_mutation = trpc.users.googleUser.useMutation({
+  const google_user_mutation = trpc.users.googleUser.useMutation({
     onSuccess: () => {
       console.log('success');
     }
@@ -24,7 +24,7 @@ export function LoginPage() {
   };
   return (
     <main>
-      <h1>Login Page</h1>
+      <h1>Google Login Page</h1>
       <p>
         Here there will be an option to login with google or login with email
         and password. There will be a forgot password link, and create an

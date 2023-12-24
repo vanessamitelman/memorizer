@@ -13,6 +13,8 @@ exports.usersRouter = void 0;
 const zod_1 = require("zod");
 const connection_1 = require("../../connection");
 const trpc_1 = require("../trpc");
+const jwt_js_decode_1 = require("jwt-js-decode");
+const dateFormatter_1 = require("../../utils/dateFormatter");
 exports.usersRouter = (0, trpc_1.router)({
     list: trpc_1.publicProcedure.query(() => __awaiter(void 0, void 0, void 0, function* () {
         return yield connection_1.prismaDB.users.findMany();
@@ -20,47 +22,84 @@ exports.usersRouter = (0, trpc_1.router)({
     createUser: trpc_1.publicProcedure
         .input(zod_1.z.object({
         email: zod_1.z.string(),
-        password: zod_1.z.string(),
-        createDate: zod_1.z.string(),
-        lastLoggedIn: zod_1.z.string()
+        password: zod_1.z.string()
     }))
         .mutation((opts) => __awaiter(void 0, void 0, void 0, function* () {
-        const googleUser = yield connection_1.prismaDB.users.create({
-            data: opts.input
-        });
-        return googleUser;
-    })),
-    createGoogleUser: trpc_1.publicProcedure
-        .input(zod_1.z.object({
-        googleEmail: zod_1.z.string(),
-        googleId: zod_1.z.string(),
-        createDate: zod_1.z.string(),
-        lastLoggedIn: zod_1.z.string()
-    }))
-        .mutation((opts) => __awaiter(void 0, void 0, void 0, function* () {
-        const googleUser = yield connection_1.prismaDB.users.create({
-            data: opts.input
-        });
-        return googleUser;
-    })),
-    bookEdit: trpc_1.publicProcedure
-        .input(zod_1.z.object({
-        id: zod_1.z.string(),
-        title: zod_1.z.string(),
-        authorId: zod_1.z.string(),
-        description: zod_1.z.string()
-    }))
-        .mutation((opts) => __awaiter(void 0, void 0, void 0, function* () {
-        const book = yield connection_1.prismaDB.book.update({
+        const newUser = yield connection_1.prismaDB.users.create({
             data: {
-                title: opts.input.title,
-                description: opts.input.description,
-                authorId: opts.input.authorId
+                email: opts.input.email,
+                password: opts.input.password,
+                createDate: (0, dateFormatter_1.formatDate)(new Date()),
+                lastLoggedIn: (0, dateFormatter_1.formatDate)(new Date()),
+                isLoggedIn: 1
+            }
+        });
+        return newUser;
+    })),
+    loginUser: trpc_1.publicProcedure
+        .input(zod_1.z.object({
+        id: zod_1.z.number()
+    }))
+        .mutation((opts) => __awaiter(void 0, void 0, void 0, function* () {
+        const loginUser = yield connection_1.prismaDB.users.update({
+            data: {
+                lastLoggedIn: (0, dateFormatter_1.formatDate)(new Date()),
+                isLoggedIn: 1
             },
             where: {
                 id: opts.input.id
             }
         });
-        return book;
+        return loginUser;
+    })),
+    googleUser: trpc_1.publicProcedure
+        .input(zod_1.z.object({
+        credential: zod_1.z.string()
+    }))
+        .mutation((opts) => __awaiter(void 0, void 0, void 0, function* () {
+        const { payload: { email, sub } } = (0, jwt_js_decode_1.decode)(opts.input.credential);
+        const existingUser = yield connection_1.prismaDB.users.findFirst({
+            where: {
+                email
+            }
+        });
+        if (existingUser) {
+            const updateUser = yield connection_1.prismaDB.users.update({
+                where: {
+                    id: existingUser.id
+                },
+                data: {
+                    lastLoggedIn: (0, dateFormatter_1.formatDate)(new Date()),
+                    isLoggedIn: 1
+                }
+            });
+            return updateUser;
+        }
+        const createGoogleUser = yield connection_1.prismaDB.users.create({
+            data: {
+                email,
+                googleId: sub,
+                createDate: (0, dateFormatter_1.formatDate)(new Date()),
+                lastLoggedIn: (0, dateFormatter_1.formatDate)(new Date()),
+                isLoggedIn: 1
+            }
+        });
+        return createGoogleUser;
+    })),
+    getUser: trpc_1.publicProcedure.input(zod_1.z.number()).query((opts) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield connection_1.prismaDB.users.findFirst({
+            where: {
+                id: opts.input
+            }
+        });
+        return user;
+    })),
+    getUserByEmail: trpc_1.publicProcedure.input(zod_1.z.string()).query((opts) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield connection_1.prismaDB.users.findFirst({
+            where: {
+                email: opts.input
+            }
+        });
+        return user;
     }))
 });

@@ -1,20 +1,20 @@
 import * as React from 'react';
-import Button from '@mui/material/Button';
-import { styled } from '@mui/material/styles';
-import Dialog from '@mui/material/Dialog';
-import DialogTitle from '@mui/material/DialogTitle';
-import DialogContent from '@mui/material/DialogContent';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+// import Button from '@mui/material/Button';
+// import { styled } from '@mui/material/styles';
+// import Dialog from '@mui/material/Dialog';
+// import DialogTitle from '@mui/material/DialogTitle';
+// import DialogContent from '@mui/material/DialogContent';
+// import IconButton from '@mui/material/IconButton';
+// import CloseIcon from '@mui/icons-material/Close';
 
-const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
-    padding: theme.spacing(2)
-  },
-  '& .MuiDialogActions-root': {
-    padding: theme.spacing(1)
-  }
-}));
+// const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+//   '& .MuiDialogContent-root': {
+//     padding: theme.spacing(2)
+//   },
+//   '& .MuiDialogActions-root': {
+//     padding: theme.spacing(1)
+//   }
+// }));
 
 export function InfoDialog() {
   const [open, setOpen] = React.useState(false);
@@ -27,8 +27,9 @@ export function InfoDialog() {
   };
 
   return (
-    <>
-      <Button variant='outlined' onClick={handleClickOpen}>
+    <div>
+      Info Dialog
+      {/* <Button variant='outlined' onClick={handleClickOpen}>
         Open dialog
       </Button>
       <BootstrapDialog
@@ -57,7 +58,7 @@ export function InfoDialog() {
           its Interval Days. (1 ~ 14 days -{'>'} Low, 15 ~ 60 days -{'>'} Mid,
           over 61 days -{'>'} High)
         </DialogContent>
-      </BootstrapDialog>
-    </>
+      </BootstrapDialog> */}
+    </div>
   );
 }

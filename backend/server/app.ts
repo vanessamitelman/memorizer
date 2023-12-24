@@ -7,12 +7,10 @@ const app = express();
 app.use(express.json());
 app.use(
   cors({
-    origin: ['http://localhost:5173']
+    origin: '*'
   })
 );
-app.listen(3302, () => {
-  console.log('listening on 3302');
-});
+
 app.use(
   '/trpc',
   trpcExpress.createExpressMiddleware({
@@ -24,4 +22,8 @@ app.get('/', (req, res) => {
   res.send({
     message: 'hey ma'
   });
+});
+
+app.listen(process?.env?.PORT ?? 3301, () => {
+  console.log('listening on 3301 ' + process?.env?.PORT ?? 3301);
 });

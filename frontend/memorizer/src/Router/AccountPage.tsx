@@ -1,3 +1,5 @@
+import { FormPropsTextFields } from '../Components/form';
+
 export function AccountPage() {
   return (
     <main>
@@ -6,6 +8,7 @@ export function AccountPage() {
         How log the site has been accessed, time spent learning, and how many
         cards
       </p>
+      <FormPropsTextFields />
     </main>
   );
 }
