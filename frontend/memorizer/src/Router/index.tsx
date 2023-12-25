@@ -2,8 +2,8 @@ import { Route, Routes } from 'react-router-dom';
 
 import { LearnPracticePage } from './learnPracticePage';
 import { LoginPage } from './loginPage';
-import { AccountPage } from './accountPage';
 import { HomePage } from './homePage';
+import { AccountPage } from './AccountPage';
 export function RouterComponent() {
   return (
     <>

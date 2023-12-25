@@ -15,10 +15,9 @@ const connection_1 = require("../../connection");
 const trpc_1 = require("../trpc");
 const jwt_js_decode_1 = require("jwt-js-decode");
 const dateFormatter_1 = require("../../utils/dateFormatter");
+const listUsers_1 = require("./listUsers");
 exports.usersRouter = (0, trpc_1.router)({
-    list: trpc_1.publicProcedure.query(() => __awaiter(void 0, void 0, void 0, function* () {
-        return yield connection_1.prismaDB.users.findMany();
-    })),
+    list: listUsers_1.listUserTrpc,
     createUser: trpc_1.publicProcedure
         .input(zod_1.z.object({
         email: zod_1.z.string(),
@@ -86,16 +85,8 @@ exports.usersRouter = (0, trpc_1.router)({
         });
         return createGoogleUser;
     })),
-    getUser: trpc_1.publicProcedure.input(zod_1.z.number()).query((opts) => __awaiter(void 0, void 0, void 0, function* () {
-        const user = yield connection_1.prismaDB.users.findFirst({
-            where: {
-                id: opts.input
-            }
-        });
-        return user;
-    })),
-    getUserByEmail: trpc_1.publicProcedure.input(zod_1.z.string()).query((opts) => __awaiter(void 0, void 0, void 0, function* () {
-        const user = yield connection_1.prismaDB.users.findFirst({
+    getUser: trpc_1.publicProcedure.input(zod_1.z.string()).query((opts) => __awaiter(void 0, void 0, void 0, function* () {
+        const user = yield connection_1.prismaDB.users.findUnique({
             where: {
                 email: opts.input
             }

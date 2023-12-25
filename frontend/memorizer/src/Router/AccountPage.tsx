@@ -1,4 +1,4 @@
-import { FormPropsTextFields } from '../Components/form';
+import { CreateAccountForm } from '../Components/createAccountform';
 
 export function AccountPage() {
   return (
@@ -8,7 +8,7 @@ export function AccountPage() {
         How log the site has been accessed, time spent learning, and how many
         cards
       </p>
-      <FormPropsTextFields />
+      <CreateAccountForm />
     </main>
   );
 }

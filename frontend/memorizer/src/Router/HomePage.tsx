@@ -1,5 +1,5 @@
 import { InfoDialog } from '../Components/HomePage/InfoDialog';
-import { FormPropsTextFields } from '../Components/form';
+
 import { trpc } from '../trpc';
 import { NavLink } from 'react-router-dom';
 
@@ -15,7 +15,6 @@ export function HomePage() {
       <h1>Home Page</h1>
       <p>There will be a graph showing the memory levels for each deck</p>
       <p>List of all decks with ability to add more</p>
-      <FormPropsTextFields />
       <InfoDialog />
       <br />
       <NavLink to='/create-account'>Create Account</NavLink>
