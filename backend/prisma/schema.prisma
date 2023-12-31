@@ -43,7 +43,7 @@ model Statistics {
 
 model Users {
   id           Int          @id @default(autoincrement())
-  password     String?
+  password     String
   email        String @unique
   statistics   Statistics[]
   cardDecks CardDecks[]

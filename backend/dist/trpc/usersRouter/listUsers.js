@@ -10,6 +10,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.listUserTrpc = void 0;
-exports.listUserTrpc = publicProcedure.query(() => __awaiter(void 0, void 0, void 0, function* () {
-    return yield prismaDB.users.findMany();
+const connection_1 = require("../../connection");
+const trpc_1 = require("../trpc");
+exports.listUserTrpc = trpc_1.publicProcedure.query(() => __awaiter(void 0, void 0, void 0, function* () {
+    return yield connection_1.prismaDB.users.findMany();
 }));

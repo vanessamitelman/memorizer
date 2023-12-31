@@ -2,6 +2,7 @@ import TextField from '@mui/material/TextField';
 import { Button, Stack } from '@mui/material';
 import { trpc } from '../trpc';
 import { useForm } from 'react-hook-form';
+import { CreateAccountI } from '../interfaces/createAccount';
 
 export function CreateAccountForm() {
   const create_Account_mutation = trpc.users.createUser.useMutation({
@@ -9,10 +10,7 @@ export function CreateAccountForm() {
       console.log('success');
     }
   });
-  const { register, handleSubmit } = useForm<{
-    email: string;
-    password: string;
-  }>();
+  const { register, handleSubmit } = useForm<CreateAccountI>();
   return (
     <div>
       <Stack

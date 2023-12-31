@@ -1,4 +1,4 @@
-import { InfoDialog } from '../Components/HomePage/InfoDialog';
+import { InfoDialog } from '../components/HomePage/InfoDialog';
 
 import { trpc } from '../trpc';
 import { NavLink } from 'react-router-dom';

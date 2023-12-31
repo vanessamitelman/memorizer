@@ -1,4 +1,4 @@
-import { LearningStepper } from '../Components/Learning/Learning';
+import { LearningStepper } from '../components/Learning/Learning';
 
 export function LearnPracticePage() {
   return (

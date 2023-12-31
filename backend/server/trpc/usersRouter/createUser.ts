@@ -10,11 +10,9 @@ export const createUserTrpc = publicProcedure
     })
   )
   .mutation(async (opts) => {
-    const newUser = await prismaDB.users.create({
-      data: {
-        email: opts.input.email,
-        password: opts.input.password
-      }
+    const user = await prismaDB.users.create({
+      data: opts.input
     });
-    return newUser;
+
+    return user;
   });
