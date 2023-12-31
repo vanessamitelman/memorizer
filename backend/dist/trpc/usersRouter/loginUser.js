@@ -9,29 +9,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.createUser = void 0;
-const zod_1 = require("zod");
-const trpc_1 = require("../trpc");
+exports.loginUser = void 0;
 const connection_1 = require("../../connection");
-const hashPassword_1 = require("../../utils/hashPassword");
-exports.createUser = trpc_1.publicProcedure
+const checkPassword_1 = require("../../utils/checkPassword");
+const trpc_1 = require("../trpc");
+const zod_1 = require("zod");
+exports.loginUser = trpc_1.publicProcedure
     .input(zod_1.z.object({
     email: zod_1.z.string(),
     password: zod_1.z.string()
 }))
     .mutation((opts) => __awaiter(void 0, void 0, void 0, function* () {
-    const checkUserExists = yield connection_1.prismaDB.users.findUnique({
+    const user = yield connection_1.prismaDB.users.findUnique({
         where: {
             email: opts.input.email
         }
     });
-    const password_hashed = yield (0, hashPassword_1.hashPassword)(opts.input.password);
-    console.log(password_hashed);
-    const user = yield connection_1.prismaDB.users.create({
-        data: {
-            email: opts.input.email,
-            password: password_hashed
-        }
-    });
-    return user;
+    if (user === null)
+        return user;
+    const is_password_matched = yield (0, checkPassword_1.checkPassword)(opts.input.password, user === null || user === void 0 ? void 0 : user.password);
+    if (is_password_matched)
+        return user;
+    return null;
 }));

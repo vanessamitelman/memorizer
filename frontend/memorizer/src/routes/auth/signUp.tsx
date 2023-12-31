@@ -1,25 +1,22 @@
 import { useForm } from 'react-hook-form';
 import { trpc } from '../../trpc';
 import { useAtom } from 'jotai';
-
 import { useNavigate } from 'react-router-dom';
+import { USER_LOCAL_KEY } from '../../utils/CONST';
 import { UserInfoAtom } from '../../states/userState';
+import { SignUpFormInterface } from '../../interfaces/SignUpFormInterface';
 
-interface SignUpFormInterface {
-  email: string;
-  password: string;
-}
-
-export function AccountPage() {
+export function SignUp() {
   const [user_info, set_user_info] = useAtom(UserInfoAtom);
+
   const sign_up_form = useForm<SignUpFormInterface>();
+
   const navigate = useNavigate();
 
-  const create_user_mutation = trpc.users.createUser.useMutation({
-    onSuccess: (data, variables) => {
-      console.log({ data, variables });
+  const create_user_mutation = trpc.users.create.useMutation({
+    onSuccess: (data) => {
       set_user_info(data);
-      localStorage.setItem('user_node', JSON.stringify(data));
+      localStorage.setItem(USER_LOCAL_KEY, JSON.stringify(data));
       navigate('/');
     }
   });

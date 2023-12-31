@@ -1,10 +1,8 @@
 import { router } from '../trpc';
-import { listUserTrpc } from './listUsers';
-import { createUserTrpc } from './createUser';
-import { getUserTrpc } from './getUser';
+import { createUser } from './createUser';
+import { loginUser } from './loginUser';
 
 export const usersRouter = router({
-  list: listUserTrpc,
-  createUser: createUserTrpc,
-  getUser: getUserTrpc
+  login: loginUser,
+  create: createUser
 });

@@ -37,6 +37,7 @@ model Statistics {
   dateTimeLastTested     Int
   successRate  Int
   intervalInDays Int
+
   cards Cards @relation(fields: [cardId], references: [id])
   users        Users     @relation(fields: [userId], references: [id]) // Define the relationship
 }
@@ -45,6 +46,7 @@ model Users {
   id           Int          @id @default(autoincrement())
   password     String
   email        String @unique
+
   statistics   Statistics[]
   cardDecks CardDecks[]
 }

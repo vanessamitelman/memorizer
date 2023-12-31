@@ -14,23 +14,16 @@ const zod_1 = require("zod");
 const trpc_1 = require("../trpc");
 const connection_1 = require("../../connection");
 const hashPassword_1 = require("../../utils/hashPassword");
-exports.createUser = trpc_1.publicProcedure
-    .input(zod_1.z.object({
+exports.createUser = trpc_1.publicProcedure.input(zod_1.z.object({
     email: zod_1.z.string(),
     password: zod_1.z.string()
-}))
-    .mutation((opts) => __awaiter(void 0, void 0, void 0, function* () {
-    const checkUserExists = yield connection_1.prismaDB.users.findUnique({
-        where: {
-            email: opts.input.email
-        }
-    });
+})).mutation((opts) => __awaiter(void 0, void 0, void 0, function* () {
     const password_hashed = yield (0, hashPassword_1.hashPassword)(opts.input.password);
     console.log(password_hashed);
-    const user = yield connection_1.prismaDB.users.create({
+    const user = yield connection_1.prisma.user.create({
         data: {
             email: opts.input.email,
-            password: password_hashed
+            password: password_hashed,
         }
     });
     return user;
