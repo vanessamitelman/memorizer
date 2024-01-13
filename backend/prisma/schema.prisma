@@ -49,4 +49,12 @@ model Users {
 
   statistics   Statistics[]
   cardDecks CardDecks[]
+  session Session[]
+}
+model Session {
+  id String @id @default(uuid())
+  userId Int
+  expires DateTime
+
+  users Users @relation(fields: [userId], references: [id])
 }

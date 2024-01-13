@@ -12,6 +12,12 @@ export function App() {
       links: [
         httpBatchLink({
           url: 'http://localhost:3301/trpc',
+          fetch(url, options) {
+            return fetch(url, {
+              ...options,
+              credentials: 'include'
+            });
+          },
           // You can pass any HTTP headers you wish here
           async headers() {
             return {
