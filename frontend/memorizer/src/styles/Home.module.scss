@@ -1,0 +1,83 @@
+main {
+  color: #79e1e7;
+  width: 100vw;
+  h2 {
+    font-size: 2rem;
+  }
+  p {
+    padding: 1rem 0 2rem;
+  }
+}
+
+.container {
+  height: 100vh;
+  margin: 0 auto;
+}
+.wrapperDark {
+  background-color: #092134;
+  width: 100vw;
+  padding: 3rem 0;
+}
+.wrapperLight {
+  background-color: #fff;
+  color: #092134;
+  width: 100vw;
+  padding: 3rem 0;
+}
+.wrapperNarrow {
+  padding: 1rem 0;
+}
+.topNav {
+  max-width: 780px;
+  display: flex;
+  margin: 0 auto;
+
+  .logoName {
+    flex: 1;
+    color: #fff;
+    font-weight: 300;
+    font-size: 2rem;
+  }
+  .btnContainer {
+    display: flex;
+    gap: 1rem;
+  }
+  .loginBtn {
+    background: none;
+    border: 2px solid #ebebeb;
+    color: #ebebeb;
+  }
+  .signUpBtn {
+    background-color: #2da99d;
+    color: white;
+    border: none;
+  }
+}
+
+.btn {
+  cursor: pointer;
+  width: auto;
+  border-radius: 8px;
+  position: relative;
+  height: 32px;
+  padding: 0px 14px;
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+  border: none;
+}
+.btn:hover {
+  opacity: 0.7;
+}
+.textContainer {
+  text-align: center;
+  margin: 0 auto;
+  max-width: 520px;
+}
+
+.startNowBtn {
+  background-color: #2da99d;
+  padding: 1rem;
+  height: auto;
+  color: #fff;
+}

@@ -4,7 +4,6 @@ import { Dashboard } from './dashboard';
 import { SignUp } from './auth/signUp';
 import { Login } from './auth/login';
 import { useEffect } from 'react';
-
 import Home from './home';
 import { checkUserAuthentication } from '../utils/checkUserAuthentication';
 import { useSetAtom } from 'jotai';
