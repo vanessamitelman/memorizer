@@ -5,19 +5,20 @@ import { useNavigate } from 'react-router-dom';
 import { USER_LOCAL_KEY } from '../../utils/CONST';
 import { UserInfoAtom } from '../../states/userState';
 import { SignUpFormInterface } from '../../interfaces/SignUpFormInterface';
+import { useAuth } from '../../context/AuthContext';
 
 export function SignUp() {
+  const { login } = useAuth();
   const [user_info, set_user_info] = useAtom(UserInfoAtom);
-
   const sign_up_form = useForm<SignUpFormInterface>();
-
   const navigate = useNavigate();
 
   const create_user_mutation = trpc.users.create.useMutation({
     onSuccess: (data) => {
       set_user_info(data);
       localStorage.setItem(USER_LOCAL_KEY, JSON.stringify(data));
-      navigate('/');
+      login('user');
+      navigate('/dashboard');
     }
   });
 

@@ -1,12 +1,10 @@
 // AuthContext.jsx
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-export type UserRole = 'admin' | 'user';
+import { UserType } from '../types/UserType';
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  userRole: UserRole | null;
-  login: (role: UserRole) => void;
+  login: (user: UserType) => void;
   logout: () => void;
 }
 
@@ -18,20 +16,17 @@ interface AuthProviderProps {
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState<UserRole | null>(null);
 
-  const login = (role: UserRole) => {
+  const login = (data: UserType) => {
     setIsAuthenticated(true);
-    setUserRole(role);
   };
 
   const logout = () => {
     setIsAuthenticated(false);
-    setUserRole(null);
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, userRole, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

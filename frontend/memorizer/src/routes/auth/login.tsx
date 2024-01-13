@@ -5,8 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { USER_LOCAL_KEY } from '../../utils/CONST';
 import { UserInfoAtom } from '../../states/userState';
 import { LoginFormInterface } from '../../interfaces/LoginFormInterface';
+import { useAuth } from '../../context/AuthContext';
 
 export function Login() {
+  const { login } = useAuth();
   const set_user_info = useSetAtom(UserInfoAtom);
   const login_form = useForm<LoginFormInterface>();
   const navigate = useNavigate();
@@ -15,7 +17,8 @@ export function Login() {
     onSuccess: (data) => {
       set_user_info(data);
       localStorage.setItem(USER_LOCAL_KEY, JSON.stringify(data));
-      navigate('/');
+      login('user');
+      navigate('/dashboard');
     }
   });
 
