@@ -6,7 +6,7 @@ import { USER_LOCAL_KEY } from '../../utils/CONST';
 import { UserInfoAtom } from '../../states/userState';
 import { LoginFormInterface } from '../../interfaces/LoginFormInterface';
 
-export function LoginPage() {
+export function Login() {
   const set_user_info = useSetAtom(UserInfoAtom);
   const login_form = useForm<LoginFormInterface>();
   const navigate = useNavigate();

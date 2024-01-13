@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { trpc } from '../trpc';
 
-export function HomePage() {
+export function Dashboard() {
+  const userRole = 'user';
   const list_cards_query = trpc.cards.list.useQuery();
   if (list_cards_query.isLoading) {
     return <div>Loading...</div>;

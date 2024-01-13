@@ -1,13 +1,16 @@
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { LearnPracticePage } from './learnPracticePage';
-import { HomePage } from './homePage';
+import { Dashboard } from './dashboard';
 import { SignUp } from './auth/signUp';
-import { LoginPage } from './auth/login';
+import { Login } from './auth/login';
 import { useSetAtom } from 'jotai';
 import { UserInfoAtom } from '../states/userState';
 import { useEffect } from 'react';
 import { USER_LOCAL_KEY } from '../utils/CONST';
 import { UserTypeZod } from '../types/userType';
+import { AuthProvider } from '../context/AuthContext';
+import PrivateRoute from './PrivateRoute';
+import Home from './home';
 
 export function RouterComponent() {
   const set_user_info = useSetAtom(UserInfoAtom);
@@ -27,7 +30,7 @@ export function RouterComponent() {
     if (user_obj_zod.success) {
       set_user_info(user_obj_zod.data);
       if (location.pathname === '/sign-up' || location.pathname === '/login') {
-        navigate('/blog');
+        navigate('/dashboard');
       }
       return;
     }
@@ -35,14 +38,24 @@ export function RouterComponent() {
     navigate('/sign-up');
   }, [location.pathname]);
   return (
-    <>
+    <AuthProvider>
       <Routes>
-        <Route path='/' element={<HomePage />}>
-          <Route path='/learning' element={<LearnPracticePage />}></Route>
-          <Route path='/sign-up' element={<SignUp />}></Route>
-          <Route path='login' element={<LoginPage />} />
+        <Route
+          element={
+            <PrivateRoute
+              path='/dashboard'
+              element={<Dashboard />}
+              requiredRoles={['admin' || 'user']}
+            />
+          }
+        >
+          <Route path='/' element={<Home />} />
         </Route>
+        <Route path='/login' element={<Login />} />
+
+        <Route path='/learning' element={<LearnPracticePage />}></Route>
+        <Route path='/sign-up' element={<SignUp />}></Route>
       </Routes>
-    </>
+    </AuthProvider>
   );
 }
